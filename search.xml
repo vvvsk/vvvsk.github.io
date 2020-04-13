@@ -331,16 +331,16 @@
 <p>python库：requests、BeautifulSoup、multiprocessing、selenium、itertools、BitVector、pymongo</p>
 <p>MongoDB安装及配置：</p>
 <pre><code>1. 去[官网](https://www.mongodb.com/download-center/community)下载
- 2. 下载好.msi文件，安装</code></pre><p><img src="1.png" alt=""></p>
-<p><img src="2.png" alt=""></p>
-<p><img src="3.png" alt=""></p>
-<p><img src="4.png" alt=""></p>
-<p><img src="5.png" alt=""></p>
+ 2. 下载好.msi文件，安装</code></pre><p><img src="/archives/b66ffe92/1.png" alt></p>
+<p><img src="/archives/b66ffe92/2.png" alt></p>
+<p><img src="/archives/b66ffe92/3.png" alt></p>
+<p><img src="/archives/b66ffe92/4.png" alt></p>
+<p><img src="/archives/b66ffe92/5.png" alt></p>
 <ol start="4">
 <li>软件安装在D:\MongoDB这个目录下，需要在D盘符新建一个D:\data\db这样目录，之后在D:\MongoDB\Server\4.2\bin这目录下cmd运行mongodb.exe即可</li>
 <li>可视化mongoDB，用自带的MongoDB Compass Community这个可视化工具，连接以后，</li>
 </ol>
-<p><img src="6.png" alt=""></p>
+<p><img src="/archives/b66ffe92/6.png" alt></p>
 <p>成功连接。</p>
 <p>redis 安装及配置</p>
 <ol>
