@@ -16,7 +16,7 @@
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxDistToClosest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; seats)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> N = seats.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> K = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        &#123;<span class="comment">//统计中间0的长度，</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">                K = <span class="number">0</span>; </span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                K++;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, (K + <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        &#123;<span class="comment">//统计第一种情况</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = N<span class="number">-1</span>; i &gt;= <span class="number">0</span>; --i)</span><br><span class="line">        &#123;<span class="comment">//统计第三中情况</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, N - <span class="number">1</span> - i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="851-喧闹和富有"><a href="#851-喧闹和富有" class="headerlink" title="851. 喧闹和富有"></a><a href="https://leetcode-cn.com/problems/loud-and-rich/" target="_blank" rel="noopener">851. 喧闹和富有</a></h4><p><strong>题解</strong>：根据描述，好像描述有点复杂，上图。</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="/archives/5122a47f/1.png" alt></p>
 <p>依据谁比谁更穷（比如0号选手比1号选手穷）这样的关系，构建了一个有向图。旁边红字对应的是每位选手的安静值。题目的意思就是把每位选手的安静值更新为所有比他富有的选手的安静值中，最小值对应的选手，怎么办？模拟图的深搜过程，假设DFS(i)表示所有比i号选手富有的选手的最小安静值对应的选手。那么,写成代码</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;answer;</span><br><span class="line">   <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;graph;</span><br><span class="line">   <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">loudAndRich</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; richer, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; quiet)</span> </span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> N = quiet.<span class="built_in">size</span>();</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> node=<span class="number">0</span>;node&lt;N;++node)</span><br><span class="line">       &#123;<span class="comment">//邻接表初始化</span></span><br><span class="line">           <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v;</span><br><span class="line">           graph.push_back(v);</span><br><span class="line">           answer.push_back(<span class="number">-1</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">auto</span> i:richer)</span><br><span class="line">           graph[i[<span class="number">1</span>]].push_back(i[<span class="number">0</span>]);</span><br><span class="line">       <span class="comment">//邻接表赋值</span></span><br><span class="line">   </span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> node=<span class="number">0</span>;node&lt;N;node++)</span><br><span class="line">           dfs(node,quiet);</span><br><span class="line">   </span><br><span class="line">       <span class="keyword">return</span> answer;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> node,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;quiet)</span> </span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (answer[node] == <span class="number">-1</span>) </span><br><span class="line">       &#123;</span><br><span class="line">           answer[node] = node;</span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> child: graph[node])</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">int</span> cand = dfs(child,quiet);</span><br><span class="line">               <span class="keyword">if</span> (quiet[cand] &lt; quiet[answer[node]])</span><br><span class="line">                   answer[node] = cand;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> answer[node];</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
@@ -82,7 +82,7 @@
 <a id="more"></a>
 
 <h4 id="836-矩形重叠"><a href="#836-矩形重叠" class="headerlink" title="836. 矩形重叠"></a><a href="https://leetcode-cn.com/problems/rectangle-overlap/" target="_blank" rel="noopener">836. 矩形重叠</a></h4><p><strong>题解</strong>：根据描述，我们需要找到什么时候才是重合的规律。如图所示，</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="/archives/a4dc2fcf/1.png" alt></p>
 <p>可以看到规律了。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isRectangleOverlap</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; rec1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; rec2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(rec2[<span class="number">0</span>]&lt;rec1[<span class="number">2</span>] &amp;&amp; rec2[<span class="number">1</span>]&lt;rec1[<span class="number">3</span>] &amp;&amp; rec2[<span class="number">2</span>]&gt;rec1[<span class="number">0</span>] &amp;&amp; rec2[<span class="number">3</span>]&gt;rec1[<span class="number">1</span>] )</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
@@ -201,7 +201,7 @@
 
 <p>第三反应：减小$k$的枚举范围。<br>$$N = (x+1)+(x+2)+…+(x+k)=\frac{(2x+k+1)k}{2}$$<br>在该式中，明显可观察到$k&lt;2x+k+1$，由此我们可用小学二年级学过的放缩大致确定$k&lt;\sqrt{2n}$。</p>
 <p>第四反应:</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="/archives/a9c25f88/1.png" alt></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">consecutiveNumbersSum</span><span class="params">(<span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; N &gt; <span class="number">0</span>; N-=i, i++)</span><br><span class="line">        ans += (N % i == <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//第四种解法可以看作另一种形式的枚举吧，优美且简洁。</span></span><br><span class="line">作者：pris_bupt</span><br><span class="line">链接：https:<span class="comment">//leetcode-cn.com/problems/consecutive-numbers-sum/solution/c-ji-jian-by-pris_bupt/</span></span><br><span class="line">来源：力扣（LeetCode）</span><br><span class="line">著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</span><br></pre></td></tr></table></figure>
 
 
@@ -228,7 +228,7 @@
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">entityParser</span><span class="params">(<span class="built_in">string</span> <span class="built_in">text</span>)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">char</span>&gt;m = &#123;&#123;<span class="string">"&amp;gt"</span>,<span class="string">'&gt;'</span>&#125;,&#123;<span class="string">"&amp;lt"</span>,<span class="string">'&lt;'</span>&#125;,&#123;<span class="string">"&amp;amp"</span>,<span class="string">'&amp;'</span>&#125;,&#123;<span class="string">"&amp;quot"</span>,<span class="string">'"'</span>&#125;,&#123;<span class="string">"&amp;apos"</span>,<span class="string">'\''</span>&#125;,&#123;<span class="string">"&amp;frasl"</span>,<span class="string">'/'</span>&#125;&#125;;</span><br><span class="line">        <span class="built_in">string</span> ret;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">text</span>.length();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">text</span>[i]!=<span class="string">'&amp;'</span>) ret+=<span class="built_in">text</span>[i];</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">                <span class="built_in">string</span> sub = <span class="built_in">text</span>.substr(i,<span class="number">3</span>);</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">auto</span> j:m)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(sub==j.first)&#123;</span><br><span class="line">                        flag = <span class="number">1</span>;</span><br><span class="line">                        ret+=j.second;</span><br><span class="line">                        i+=<span class="number">3</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                sub = <span class="built_in">text</span>.substr(i,<span class="number">4</span>);</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">auto</span> j:m)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(sub==j.first)&#123;</span><br><span class="line">                        flag=<span class="number">1</span>;</span><br><span class="line">                        ret+=j.second;</span><br><span class="line">                        i+=<span class="number">4</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                sub = <span class="built_in">text</span>.substr(i,<span class="number">5</span>);</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">auto</span> j:m)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(sub==j.first)&#123;</span><br><span class="line">                        flag=<span class="number">1</span>;</span><br><span class="line">                        ret+=j.second;</span><br><span class="line">                        i+=<span class="number">5</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                sub = <span class="built_in">text</span>.substr(i,<span class="number">6</span>);</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">auto</span> j:m)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(sub==j.first)&#123;</span><br><span class="line">                        flag =<span class="number">1</span>;</span><br><span class="line">                        ret+=j.second;</span><br><span class="line">                        i+=<span class="number">6</span>;</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(flag ==<span class="number">0</span>) ret+=<span class="string">'&amp;'</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="5383-给-N-x-3-网格图涂色的方案数"><a href="#5383-给-N-x-3-网格图涂色的方案数" class="headerlink" title="5383. 给 N x 3 网格图涂色的方案数"></a><a href="https://leetcode-cn.com/problems/number-of-ways-to-paint-n-x-3-grid/" target="_blank" rel="noopener">5383. 给 N x 3 网格图涂色的方案数</a></h4><p>题解：先看图</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="/archives/c4e3d004/1.png" alt></p>
 <p>根据上图，可以将排列情况分为两种，ABA，ABC，前者颜色有重复，后者无，在这两种下面再添加元素有这么12种选择</p>
 <p>ABC  ACB BAC BCA  CAB CBA  ABA ACA BAB BCB CAC CBC</p>
 <p>可分别加入到下面的如表格所示</p>
@@ -305,19 +305,22 @@
 
 <h3 id="window10-加kali双系统"><a href="#window10-加kali双系统" class="headerlink" title="window10 加kali双系统"></a>window10 加kali双系统</h3><p>正常安装，分区再安装。没错误最好</p>
 <p>遇到未安装启动引导器，其原因可能是您选择了不安装或者您的特殊硬件体系尚不支持启动引导器，您需要手动启动/dev/sda3分区上的/vmlinuz内核，并且以root=/dev/sda3作为内核参数，记住这个出错。</p>
-<p><img src="1.jpg" alt=""></p>
+<p><img src="/archives/54abd342/1.jpg" alt></p>
 <p>解决办法：进入到boot界面，找一下add boot options</p>
-<p><img src="2.jpg" alt=""></p>
+<p><img src="/archives/54abd342/2.jpg" alt></p>
 <p>之后找到一个grubx64.efi文件，加入</p>
-<p><img src="3.jpg" alt=""></p>
+<p><img src="/archives/54abd342/3.jpg" alt></p>
 <p>之后重启进入kali，就可看到黑框grub命令行界面了。输入</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">linux /boot/vmlinuz-xxx-xxx root=/dev/sda3 nouveau.modeset=<span class="number">0</span></span><br><span class="line"><span class="comment">//解释，vmlinuz后面一串字符，输入/boot/vmlinuz后按tab自动填充即可</span></span><br><span class="line"><span class="comment">//root=/dev/sda3是当初出错的时候提醒你的</span></span><br><span class="line">initrd /boot/initrd.img-xxx-xxxx</span><br><span class="line"><span class="comment">//这个xxxx也是按tab填充</span></span><br><span class="line">boot</span><br><span class="line"><span class="comment">//重启会进入到kali了，美滋滋</span></span><br><span class="line"><span class="comment">//之后还有呢</span></span><br><span class="line">update-grub</span><br><span class="line"><span class="comment">//上面update-grub自动修复引导</span></span><br><span class="line"><span class="comment">//错误是因为独立显卡的问题，还需要修改一个文件</span></span><br><span class="line">vi /boot/grub/grub.cfg</span><br><span class="line"><span class="comment">//找到禁用N卡的参数，修改 quiet flash 为quiet nouveau.modeset=0</span></span><br><span class="line"><span class="comment">//大功告成。</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="4.jpg" alt=""></p>
+<p><img src="/archives/54abd342/4.jpg" alt></p>
 ]]></content>
       <categories>
         <category>Kali</category>
       </categories>
+      <tags>
+        <tag>kali</tag>
+      </tags>
   </entry>
   <entry>
     <title>cv</title>
@@ -356,9 +359,9 @@
 </ol>
 <p>无界面浏览器配置</p>
 ]]></content>
-      <categories>
-        <category>CV</category>
-      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
   </entry>
   <entry>
     <title>C++学习</title>
@@ -460,35 +463,35 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>vector<T> v1</td>
+<td>vector<T> v1</T></td>
 <td>v1为空，默认初始化</td>
 </tr>
 <tr>
-<td>vector<T> v2(v1)</td>
+<td>vector<T> v2(v1)</T></td>
 <td>v2包含v1的所有元素</td>
 </tr>
 <tr>
-<td>vector<T>v2 = v1</td>
-<td>等价于vector<T>v2(v1)</td>
+<td>vector<T>v2 = v1</T></td>
+<td>等价于vector<T>v2(v1)</T></td>
 </tr>
 <tr>
-<td>vector<T>v3(n,val)</td>
+<td>vector<T>v3(n,val)</T></td>
 <td>初始化了含n个val的vector</td>
 </tr>
 <tr>
-<td>vector<T>v4(n)</td>
+<td>vector<T>v4(n)</T></td>
 <td>vector大小为n，可存n个T</td>
 </tr>
 <tr>
-<td>vector<T>v5{a,b,c,…}</td>
+<td>vector<T>v5{a,b,c,…}</T></td>
 <td>按a,b,c,…初始化，并且值也确定</td>
 </tr>
 <tr>
-<td>vector<T>v6 = {a,b,c,…}</td>
-<td>等价于vector<T>{a,b,c,…}</td>
+<td>vector<T>v6 = {a,b,c,…}</T></td>
+<td>等价于vector<T>{a,b,c,…}</T></td>
 </tr>
 <tr>
-<td>vector<T>v7 = {10,T}</td>
+<td>vector<T>v7 = {10,T}</T></td>
 <td>初始化了10个T</td>
 </tr>
 </tbody></table>
@@ -526,15 +529,15 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>stack<int> stack1;</td>
+<td>stack<int> stack1;</int></td>
 <td>初始化一个栈，默认为双端队列</td>
 </tr>
 <tr>
-<td>stack&lt;int,vector<int>&gt;stack2;</td>
+<td>stack&lt;int,vector<int>&gt;stack2;</int></td>
 <td>变成向量</td>
 </tr>
 <tr>
-<td>stack&lt;int,list<int>&gt; stack3</td>
+<td>stack&lt;int,list<int>&gt; stack3</int></td>
 <td>链表</td>
 </tr>
 </tbody></table>
@@ -568,6 +571,9 @@
 </tr>
 </tbody></table>
 ]]></content>
+      <tags>
+        <tag>C++</tag>
+      </tags>
   </entry>
   <entry>
     <title>hello-world</title>
