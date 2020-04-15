@@ -1,32 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>第88场周赛</title>
-    <url>/archives/5122a47f.html</url>
-    <content><![CDATA[<p><a href="https://leetcode-cn.com/contest/weekly-contest-88/" target="_blank" rel="noopener">传送门</a></p>
-<a id="more"></a>
-
-<h4 id="848-字母移位"><a href="#848-字母移位" class="headerlink" title="848. 字母移位"></a><a href="https://leetcode-cn.com/problems/shifting-letters/" target="_blank" rel="noopener">848. 字母移位</a></h4><p><strong>题解</strong>：根据描述，第一反应模拟这个过程，超时。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">shiftingLetters</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; shifts)</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;shifts.<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            S = shiftStr(S,shifts[i],i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> S;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">shiftStr</span><span class="params">(<span class="built_in">string</span> &amp;s,<span class="keyword">int</span> shift,<span class="keyword">int</span> <span class="built_in">end</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        shift%=<span class="number">26</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length()&amp;&amp;i&lt;=<span class="built_in">end</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            s[i] =<span class="string">'a'</span> + (s[i]-<span class="string">'a'</span>+shift)%<span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>第二反应：根据上述这个模拟超时过程，想一优化，shifts数组后面开始，逐个偏移，根据描述，后面的偏移会加到前面。于是有了后缀和这一说法。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">shiftingLetters</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; shifts)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=shifts.<span class="built_in">size</span>()<span class="number">-2</span>;i&gt;=<span class="number">0</span>;--i)&#123;</span><br><span class="line">            shifts[i]%=<span class="number">26</span>;</span><br><span class="line">            shifts[i]+=shifts[i+<span class="number">1</span>];</span><br><span class="line">            <span class="comment">//计算后缀和</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;S.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            S[i] =<span class="string">'a'</span> + (S[i]-<span class="string">'a'</span>+shifts[i])%<span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> S;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="849-到最近的人的最大距离"><a href="#849-到最近的人的最大距离" class="headerlink" title="849. 到最近的人的最大距离"></a><a href="https://leetcode-cn.com/problems/maximize-distance-to-closest-person/" target="_blank" rel="noopener">849. 到最近的人的最大距离</a></h4><p><strong>题解</strong>：根据描述，本题可转换为最长连续0的长度。分三种情况，一开始就连续的0（左边无1），在中间连续的0（指0的左右都有1），在末尾连续的0（右边无1）.</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxDistToClosest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; seats)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> N = seats.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> K = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        &#123;<span class="comment">//统计中间0的长度，</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">                K = <span class="number">0</span>; </span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                K++;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, (K + <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        &#123;<span class="comment">//统计第一种情况</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = N<span class="number">-1</span>; i &gt;= <span class="number">0</span>; --i)</span><br><span class="line">        &#123;<span class="comment">//统计第三中情况</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, N - <span class="number">1</span> - i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="851-喧闹和富有"><a href="#851-喧闹和富有" class="headerlink" title="851. 喧闹和富有"></a><a href="https://leetcode-cn.com/problems/loud-and-rich/" target="_blank" rel="noopener">851. 喧闹和富有</a></h4><p><strong>题解</strong>：根据描述，好像描述有点复杂，上图。</p>
-<p><img src="/archives/5122a47f/1.png" alt></p>
-<p>依据谁比谁更穷（比如0号选手比1号选手穷）这样的关系，构建了一个有向图。旁边红字对应的是每位选手的安静值。题目的意思就是把每位选手的安静值更新为所有比他富有的选手的安静值中，最小值对应的选手，怎么办？模拟图的深搜过程，假设DFS(i)表示所有比i号选手富有的选手的最小安静值对应的选手。那么,写成代码</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;answer;</span><br><span class="line">   <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;graph;</span><br><span class="line">   <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">loudAndRich</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; richer, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; quiet)</span> </span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> N = quiet.<span class="built_in">size</span>();</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> node=<span class="number">0</span>;node&lt;N;++node)</span><br><span class="line">       &#123;<span class="comment">//邻接表初始化</span></span><br><span class="line">           <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v;</span><br><span class="line">           graph.push_back(v);</span><br><span class="line">           answer.push_back(<span class="number">-1</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">auto</span> i:richer)</span><br><span class="line">           graph[i[<span class="number">1</span>]].push_back(i[<span class="number">0</span>]);</span><br><span class="line">       <span class="comment">//邻接表赋值</span></span><br><span class="line">   </span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> node=<span class="number">0</span>;node&lt;N;node++)</span><br><span class="line">           dfs(node,quiet);</span><br><span class="line">   </span><br><span class="line">       <span class="keyword">return</span> answer;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> node,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;quiet)</span> </span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (answer[node] == <span class="number">-1</span>) </span><br><span class="line">       &#123;</span><br><span class="line">           answer[node] = node;</span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> child: graph[node])</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">int</span> cand = dfs(child,quiet);</span><br><span class="line">               <span class="keyword">if</span> (quiet[cand] &lt; quiet[answer[node]])</span><br><span class="line">                   answer[node] = cand;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> answer[node];</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="850-矩形面积-II"><a href="#850-矩形面积-II" class="headerlink" title="850. 矩形面积 II"></a><a href="https://leetcode-cn.com/problems/rectangle-area-ii/" target="_blank" rel="noopener">850. 矩形面积 II</a></h4><p>不会，待填坑，开始复习简历上的内容了。</p>
-]]></content>
-      <categories>
-        <category>Leetcode</category>
-      </categories>
-  </entry>
-  <entry>
     <title>第87场周赛</title>
     <url>/archives/a029fff2.html</url>
     <content><![CDATA[<p><a href="https://leetcode-cn.com/contest/weekly-contest-87/" target="_blank" rel="noopener">传送门</a></p>
@@ -48,6 +22,32 @@
 
 
 <h4 id="847-访问所有节点的最短路径"><a href="#847-访问所有节点的最短路径" class="headerlink" title="847. 访问所有节点的最短路径"></a><a href="https://leetcode-cn.com/problems/shortest-path-visiting-all-nodes/" target="_blank" rel="noopener">847. 访问所有节点的最短路径</a></h4>]]></content>
+      <categories>
+        <category>Leetcode</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第88场周赛</title>
+    <url>/archives/5122a47f.html</url>
+    <content><![CDATA[<p><a href="https://leetcode-cn.com/contest/weekly-contest-88/" target="_blank" rel="noopener">传送门</a></p>
+<a id="more"></a>
+
+<h4 id="848-字母移位"><a href="#848-字母移位" class="headerlink" title="848. 字母移位"></a><a href="https://leetcode-cn.com/problems/shifting-letters/" target="_blank" rel="noopener">848. 字母移位</a></h4><p><strong>题解</strong>：根据描述，第一反应模拟这个过程，超时。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">shiftingLetters</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; shifts)</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;shifts.<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            S = shiftStr(S,shifts[i],i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> S;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">shiftStr</span><span class="params">(<span class="built_in">string</span> &amp;s,<span class="keyword">int</span> shift,<span class="keyword">int</span> <span class="built_in">end</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        shift%=<span class="number">26</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length()&amp;&amp;i&lt;=<span class="built_in">end</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            s[i] =<span class="string">'a'</span> + (s[i]-<span class="string">'a'</span>+shift)%<span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二反应：根据上述这个模拟超时过程，想一优化，shifts数组后面开始，逐个偏移，根据描述，后面的偏移会加到前面。于是有了后缀和这一说法。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">shiftingLetters</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; shifts)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=shifts.<span class="built_in">size</span>()<span class="number">-2</span>;i&gt;=<span class="number">0</span>;--i)&#123;</span><br><span class="line">            shifts[i]%=<span class="number">26</span>;</span><br><span class="line">            shifts[i]+=shifts[i+<span class="number">1</span>];</span><br><span class="line">            <span class="comment">//计算后缀和</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;S.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            S[i] =<span class="string">'a'</span> + (S[i]-<span class="string">'a'</span>+shifts[i])%<span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> S;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="849-到最近的人的最大距离"><a href="#849-到最近的人的最大距离" class="headerlink" title="849. 到最近的人的最大距离"></a><a href="https://leetcode-cn.com/problems/maximize-distance-to-closest-person/" target="_blank" rel="noopener">849. 到最近的人的最大距离</a></h4><p><strong>题解</strong>：根据描述，本题可转换为最长连续0的长度。分三种情况，一开始就连续的0（左边无1），在中间连续的0（指0的左右都有1），在末尾连续的0（右边无1）.</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxDistToClosest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; seats)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> N = seats.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> K = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        &#123;<span class="comment">//统计中间0的长度，</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">                K = <span class="number">0</span>; </span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                K++;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, (K + <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        &#123;<span class="comment">//统计第一种情况</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = N<span class="number">-1</span>; i &gt;= <span class="number">0</span>; --i)</span><br><span class="line">        &#123;<span class="comment">//统计第三中情况</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, N - <span class="number">1</span> - i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="851-喧闹和富有"><a href="#851-喧闹和富有" class="headerlink" title="851. 喧闹和富有"></a><a href="https://leetcode-cn.com/problems/loud-and-rich/" target="_blank" rel="noopener">851. 喧闹和富有</a></h4><p><strong>题解</strong>：根据描述，好像描述有点复杂，上图。</p>
+<p><img src="/archives/5122a47f/1.png" alt></p>
+<p>依据谁比谁更穷（比如0号选手比1号选手穷）这样的关系，构建了一个有向图。旁边红字对应的是每位选手的安静值。题目的意思就是把每位选手的安静值更新为所有比他富有的选手的安静值中，最小值对应的选手，怎么办？模拟图的深搜过程，假设DFS(i)表示所有比i号选手富有的选手的最小安静值对应的选手。那么,写成代码</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;answer;</span><br><span class="line">   <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;graph;</span><br><span class="line">   <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">loudAndRich</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; richer, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; quiet)</span> </span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> N = quiet.<span class="built_in">size</span>();</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> node=<span class="number">0</span>;node&lt;N;++node)</span><br><span class="line">       &#123;<span class="comment">//邻接表初始化</span></span><br><span class="line">           <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v;</span><br><span class="line">           graph.push_back(v);</span><br><span class="line">           answer.push_back(<span class="number">-1</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">auto</span> i:richer)</span><br><span class="line">           graph[i[<span class="number">1</span>]].push_back(i[<span class="number">0</span>]);</span><br><span class="line">       <span class="comment">//邻接表赋值</span></span><br><span class="line">   </span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> node=<span class="number">0</span>;node&lt;N;node++)</span><br><span class="line">           dfs(node,quiet);</span><br><span class="line">   </span><br><span class="line">       <span class="keyword">return</span> answer;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> node,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;quiet)</span> </span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (answer[node] == <span class="number">-1</span>) </span><br><span class="line">       &#123;</span><br><span class="line">           answer[node] = node;</span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> child: graph[node])</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">int</span> cand = dfs(child,quiet);</span><br><span class="line">               <span class="keyword">if</span> (quiet[cand] &lt; quiet[answer[node]])</span><br><span class="line">                   answer[node] = cand;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> answer[node];</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="850-矩形面积-II"><a href="#850-矩形面积-II" class="headerlink" title="850. 矩形面积 II"></a><a href="https://leetcode-cn.com/problems/rectangle-area-ii/" target="_blank" rel="noopener">850. 矩形面积 II</a></h4><p>不会，待填坑，开始复习简历上的内容了。</p>
+]]></content>
       <categories>
         <category>Leetcode</category>
       </categories>
@@ -325,40 +325,90 @@
   <entry>
     <title>cv</title>
     <url>/archives/b66ffe92.html</url>
-    <content><![CDATA[<h1 id="爬取QQ空间3000万用户，玩玩大数据分析"><a href="#爬取QQ空间3000万用户，玩玩大数据分析" class="headerlink" title="爬取QQ空间3000万用户，玩玩大数据分析"></a>爬取QQ空间3000万用户，玩玩大数据分析</h1><h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>现在21世纪，有人称之为大数据时代，谁有数据量大的数据，谁能够从海量数据中提取到有用信息，并能够将其转换为资本，谁就取得了互联网的地位。</p>
+    <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>现在21世纪，有人称之为大数据时代，谁有数据量大的数据，谁能够从海量数据中提取到有用信息，并能够将其转换为资本，谁就取得了互联网的地位。</p>
 <a id="more"></a>
 
 <p>互联网数据是由生活在网络上的每一个用户所产生的，用户在互联网上的活动会被记录下来，这就是数据，海量用户，有着海量数据。这些数据被利用，分析，与各种各样的广告联系在一起，进而把这些广告推送给用户，这些推送的广告都是用户的网络行为分析出的结果。</p>
 <p>QQ上活跃这大量的用户，QQ空间里面记录了许多人的日常，这些就是数据。在日常使用QQ空间的时候，会偶尔点击给我们好友点赞的朋友，之后我们就能看到我们好友的好友的空间，依次类推，我们可以看到海量信息。</p>
-<h2 id="技术细节"><a href="#技术细节" class="headerlink" title="技术细节"></a>技术细节</h2><p>软件：python3，redis，MongoDB</p>
-<p>python库：requests、BeautifulSoup、multiprocessing、selenium、itertools、BitVector、pymongo</p>
-<p>MongoDB安装及配置：</p>
-<pre><code>1. 去[官网](https://www.mongodb.com/download-center/community)下载
- 2. 下载好.msi文件，安装</code></pre><p><img src="/archives/b66ffe92/1.png" alt></p>
-<p><img src="/archives/b66ffe92/2.png" alt></p>
-<p><img src="/archives/b66ffe92/3.png" alt></p>
-<p><img src="/archives/b66ffe92/4.png" alt></p>
-<p><img src="/archives/b66ffe92/5.png" alt></p>
-<ol start="4">
-<li>软件安装在D:\MongoDB这个目录下，需要在D盘符新建一个D:\data\db这样目录，之后在D:\MongoDB\Server\4.2\bin这目录下cmd运行mongodb.exe即可</li>
-<li>可视化mongoDB，用自带的MongoDB Compass Community这个可视化工具，连接以后，</li>
-</ol>
-<p><img src="/archives/b66ffe92/6.png" alt></p>
-<p>成功连接。</p>
-<p>redis 安装及配置</p>
+<h2 id="过程中用到的算法"><a href="#过程中用到的算法" class="headerlink" title="过程中用到的算法"></a>过程中用到的算法</h2><h3 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h3><p>一、 前言</p>
+<p>布隆过滤器 (Bloom Filter)是由Burton Howard Bloom于1970年提出，用于判断一个元素是否在集合中。与课本上学的数据结构不同，它是一种<strong>概率型</strong>数据结构，所谓概率型，就是指在判重的时候，并<strong>不是完全一定确保</strong>某个数据在集合中，课本上的二分查找，哈希，都可以<strong>一定确定</strong>某个元素是否在集合中。</p>
+<p>在爬虫的时候，数据发生重复，需要判重，判断该条数据是否加入到队列中。传统哈希表可用于判断元素是否在集合中，时间复杂度<code>O(1)</code>,空间复杂度<code>o(n)</code>，布隆过滤器牺牲了一点时间，空间复杂度大约是哈希表的$\frac{1}{4}$。</p>
+<p>布隆过滤器也支持数据的插入。</p>
+<p>二、算法过程</p>
+<p>一个布隆过滤器是一个有m个bit位的数组，每一个bit位都初始化为0。并且定义有k个不同的hash 函数，每个都以随机的将元素均匀hash到m个不同位置中的一个。</p>
+<p>在下面的介绍中n为元素数，m为布隆过滤器或哈希表的槽数，k为布隆过滤器hash 函数个数。</p>
 <ol>
-<li><p>下载安装<a href="https://github.com/dmajkic/redis/downloads" target="_blank" rel="noopener">redis</a>。把下载好的redis的zip文件解压到D:\redis-2.4.5-win32-win64\</p>
-</li>
-<li><p>在D:\redis-2.4.5-win32-win64\64bit这目录下，cmd命令运行</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">redis-server.exe redis.conf</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>再在上面目录下，cmd命令执行 </p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">redis-cli.exe -h 127.0.0.1 -p 6379 -a 123456</span><br></pre></td></tr></table></figure>
-
+<li><p>往布隆过滤器增加一个元素：首先用k个hash 函数分别将该元素hash，得到k个数值，于布隆过滤器中将这k个数值对应的bit位置1。</p>
+<p>举例：现在有3个哈希函数，$f1,f2,f3$，有一个8位qq号，布隆过滤器数组长度m为10。qq号先经过三个hash函数处理，假设分别得到1，3，7，然后就将布隆数组1，3，7位置1。</p>
 </li>
 </ol>
-<p>无界面浏览器配置</p>
+<ol start="2">
+<li><p>判断布隆过滤器中是否含有某个元素：首先用k个hash函数分别将该元素hash得到k个数值。再判断这k个数值在布隆数组中的位置是否全1，若全位1则此元素在集合中，若其中任一位不为1，则此元素比不在集合中。</p>
+<p>举例：现在有3个哈希函数，$f1,f2,f3$，有一个8位qq号，布隆过滤器数组长度m为10。需要查找是否含有这个qq号。该qq号先经过三个hash函数处理，假设分别得到1，3，7，然后查看布隆数组1，3，7位置是否全为1。</p>
+</li>
+<li><p>概率型数组结构的解释：</p>
+<p>举例：现在有3个哈希函数，$f1,f2,f3$，有3个8位qq号，假设分别为$q1,q2,q3$，布隆过滤器数组长度m为10。三个qq号分别经过三个hash函数处理，假设依次得到的结果为</p>
+<p>$q1:1，3，7$，</p>
+<p>$q2:2，5，8$，</p>
+<p>$q3:2，3，7$，</p>
+<p>在将$q1,q2 $依次插入到布隆数组中后，查询$q3$，发现其三个位置均为1，于是得到了q3在布隆过滤器的错误。这就是概率型的解释。</p>
+</li>
+<li><p>避免上述错误：<br>增加hash函数个数k，增加hash范围m。当hash结果范围很大大，且hash结果独立，直接上感觉不太可能发生碰撞。有没有一种hash函数的感觉😁。</p>
+</li>
+<li><p>使用场景：</p>
+<p>总结：数据量大，很大，在使用查询可以接受一定的查询错误，使用布隆过滤器</p>
+<p>​            当数据量大小自己能够接受，且不接受误判，使用传统set，哈希表。 </p>
+</li>
+</ol>
+<p>三、举例说明</p>
+<p>以垃圾邮件过滤中黑白名单为例：假设现有1亿个email的黑名单，每个都拥有8 bytes的指纹信息，则能的数据量大小为</p>
+<p>$$1GB=2^{10} MB=2^{20} KB=2^{30}Bytes=2^{33}bits\approx10^9Byte$$<br>需要的位数组大小为$$2^{8×8}bits=2^{31}GB\approx2×10^9GB$$</p>
+<p>这个数据量对于位数组来说是太大了，且在邮箱里，邮箱数量相比较邮箱范围过于稀疏，而且还没有考虑到哈希表中的碰撞问题。</p>
+<p><strong>若采用哈希表</strong>，由于大多数采用开放地址法来解决碰撞，而此时的查找时间复杂度为 ：$O(\frac{1}{1-\frac{n}{m}})$，当哈希表半满($\frac{n}{m}=\frac{1}{2}$)，则每次search需要探测2次，因此在保证效率的情况下哈希表的存储效率最好不超过50%。此时每个元素占8 bytes，总空间为：$\frac{10^8×8Byte}{1-0.5}=1.6GB$</p>
+<p><strong>若采用布隆过滤器</strong>，取k=8。因为n为1亿，所以总共需要$8 × 10^8$被置位为1，在保证误判率低，选取合适的k，m，让空间利用率为50%，所以总空间为：$\frac{8×10^8bis}{50%}\approx200MB$，所需空间比上述哈希结构小得多，并且误判率在万分之一以下。</p>
+<p>四、误判概率的证明和计算</p>
+<p>假设布隆过滤器中的hash函数满足简单均匀哈希假设：每个元素都等概率地hash到m个槽中的任何一个，与其它元素被hash到哪个slot无关。</p>
+<p>若m为bit数，则对某一特定bit位在一个元素由某特定hash函数插入时没有被置位为1的概率为：$1-\frac{1}{m}$，该结论算法导论有详细证明。</p>
+<p>那么k个hash 函数中没有一个对其置位的概率为：$(1-\frac{1}{m})^k$。</p>
+<p>如果插入了n个元素，但都未将其置位的概率为：$(1-\frac{1}{m})^{kn}$。</p>
+<p>则此位被置位的概率为：$1-(1-\frac{1}{m})^{kn}$。</p>
+<p>现在考虑查找阶段，若对应某个待查找元素的k bits全部置位为1，则可判定其在集合中。因此将某元素误判的概率为：$(1-(1-\frac{1}{m})^{kn})^k$。</p>
+<p>从上式中可以看出，当m增大或n减小时，都会使得误判率减小，这也符合直觉。</p>
+<p>根据小学二年级学过的极限公式:$\lim\limits_{x\to0} (1+x)^{\frac{1}{x}}=e$</p>
+<p> $(1-(1-\frac{1}{m})^{kn})^k=(1-(1-\frac{1}{m})^{m×\frac{kn}{-m}})^k$~$(1-e^{-\frac{nk}{m}})^k$。</p>
+<p>现在可以假设当给定m，和n的当k取何值时，可以将误判率降至最低。</p>
+<p>假设$f(k)=(1-e^{-\frac{nk}{m}})^k$，设$b = e^{\frac{n}{m}}$,此时，$f(k)=(1-b^{-k})^k$，接下来求$f(k)$的最值：</p>
+<p>$f(k)=(1-b^{-k})^k$，两边同时取对数$lnf(k)=kln(1-b^{-k})$</p>
+<p>两边同时对k求导 $\frac{1}{f(k)}f’(k)=ln(1-b^{-k})+k\frac{b^{-k}lnb}{1-b^{-k}}=0$</p>
+<p>解上述方程：$☞(1-b^{-k})ln(1-b^{-k})=-kb^{-k}lnb$</p>
+<p>​                       $☞(1-b^{-k})ln(1-b^{-k})=b^{-k}lnb^{-k}$</p>
+<p>​                       $☞(1-b^{-k})=b^{-k}$</p>
+<p>​                       $☞b^{-k}=\frac{1}{2}$</p>
+<p>​                        $☞e^{-\frac{kn}{m}}=\frac{1}{2}$</p>
+<p>​                        $☞k = ln2\frac{m}{n}$</p>
+<p>此时误判率$f(k)=(1-b^{-k})^k=(1-\frac{1}{2})^{k}=2^{-ln2\frac{m}{n}}\approx0.6185^{\frac{m}{n}}$</p>
+<p>调节$\frac{m}{n}$的大小，即可降低误判率$f(k)$。</p>
+<p>五、设计和应用布隆过滤器的方法</p>
+<p>首先要先由用户决定要add的元素数n，希望的误差率P。其他参数需要计算。</p>
+<p>首先要计算需要的内存大小m bits：$p = 2^{-ln2\frac{m}{n}}⇨m=-\frac{nlnp}{(ln2)^2}$</p>
+<p>再由m，n得到hash函数的个数：$k = ln2\frac{m}{n}$</p>
+<p>至此结束。</p>
+<p><a href="https://www.cnblogs.com/allensun/archive/2011/02/16/1956532.html" target="_blank" rel="noopener">原文参考</a></p>
+<h3 id="框架算法：BFS广度优先搜索"><a href="#框架算法：BFS广度优先搜索" class="headerlink" title="框架算法：BFS广度优先搜索"></a>框架算法：BFS广度优先搜索</h3><p>一、前言</p>
+<p>人的社交可以抽象定义成一个网络图。</p>
+<p><img src="/archives/b66ffe92/1.jpg" alt></p>
+<p>以每一个个人为中心，向外扩充一圈即时自己的好友圈。好友圈会有交叠。</p>
+<p>不断的以每个人为中心，向外扩充，就是整个网络图(社交遍历)。</p>
+<h2 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h2><p>每个人的好友圈是不同的，你的好友情况在别人那里情况可能是不一样的。</p>
+<p>个人只能看到自己的朋友圈，去看看别人的朋友圈，了解一下其他圈子动态，也是一件相当有趣的事。</p>
+<p>经过一圈圈的扩充遍历，好友的动态内容逐渐不同。我一开始能够访问到的内容是像自己一样普通大学生的动态，日常，到中间是那些转发，非原创动态，到最后，就逐渐变成卖衣服，卖手机的。</p>
+<p>个人解释：qq空间其实是可以限制访问的，那些开放qq空间的人，会有哪些人？一，不在意别人访问的，二,需要别人浏览，阅读，转发。三，为了利益。</p>
+<p>这些数据都有些什么用呢？有这些人的qq号，qq号主发的动态，号主的资料卡信息，其实这里最真实的只有qq号，然后是动态，分析假的资料信息并没有什么意义。qq号没得分析，动态分析，只得大致去浏览了。告一段落吧。</p>
+<p>qq空间里人间百态。那个80-90-00的人间百态。</p>
 ]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
       <tags>
         <tag>CV</tag>
       </tags>
