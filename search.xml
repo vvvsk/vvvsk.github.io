@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>GAN</title>
+    <url>/archives/f2925084.html</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>gan，全名Generative Adversarial Nets，翻译成中文，生成对抗网络。顾名思义，有生成过程，有对抗过程的一种net model。</p>
+<p>这种模型大致工作流程：</p>
+<p>有一生产者，也可以称其为造假者，他的工作是生成类似于源数据的数据，比如与古董真假难辨的伪造古董。生产者在这里就扮演了伪造古董的“工艺大师”。</p>
+<a id="more"></a>
+
+<p>有一对抗者，形象一点称其为鉴别者，他的工作就是判断某一数据是否来源于源数据，比如说，判断某一可能是古董的工艺品是不是真的古董。对抗者在这里就充当了“鉴宝大师”。</p>
+<p>“工艺大师”和“鉴宝大师”相互竞争（对抗），驱使者他们各自变得更加优秀（前者生成真假难辨的古董，后者对再怎么真假难辨的古董也能分辨出来）。</p>
+<p><strong>gan的目的</strong>就是让这个“工艺大师”能够生成无限接近于（相似于）源数据的数据。对于工艺大师，就是生成“古董”。</p>
+<h2 id="gan数学表达"><a href="#gan数学表达" class="headerlink" title="gan数学表达"></a>gan数学表达</h2><p>假设源数据集(古董数据)分布：$p_{data}$</p>
+<p>假设生成的数据集(伪造的古董)分布：$p_{g}(x_i,\theta_g)$，定义一个先验噪声$p_z(z)$,经过多层感知机处理，噪声经过$G(z,\theta_g)$处理得到$x$，即$x = G(z,\theta_g)$.</p>
+<p>假设$D(x)$表示$x$来自源数据集$p_{data}$被鉴别为真（古董）的概率，那么$D(G(z))$则可以表示为$x = G(z,\theta_g)$来自于$p_g$而被鉴别为真（古董的概率）。</p>
+<ol>
+<li>对于鉴宝大师，他的目标是尽可能的使$D(x)$趋于1，使$D(G(z))$趋于0。因此可以这样表达：<br>$$\mathop{max}\limits_{D} E_{x\sim p_{data}}[logD(X)]+E_{z\sim p_z}[log(1-D(G(z)))]$$</li>
+<li>对于工艺大师，他的目标是尽可能的使$D(G(x))$趋于1，产生误判。因此可以这样表达：<br>$$\mathop{min}\limits_{G}E_{z\sim p_z}[log(1-D(G(z)))]$$</li>
+<li>结合以上两者，可以归纳为一个公式<br>$$\mathop{min}\limits_{G}\mathop{max}\limits_{D} E_{x\sim p_{data}}[logD(X)]+E_{z\sim p_z}[log(1-D(G(z)))]$$</li>
+</ol>
+<h2 id="gan数学表达的全局最优解"><a href="#gan数学表达的全局最优解" class="headerlink" title="gan数学表达的全局最优解"></a>gan数学表达的全局最优解</h2><p>将上式记为</p>
+<p>$$\mathop{min}\limits_{G}\mathop{max}\limits_{D} V(G,D) = \mathop{min}\limits_{G}\mathop{max}\limits_{D} E_{x\sim p_{data}}[logD(X)]+E_{z\sim p_z}[log(1-D(G(z)))]$$</p>
+<p>$$\mathop{=====}\limits^{将期望用积分表达}\int_xp_{data}(x)log(D(x))dx+\int_zp(z)log(1-D(G(z)))dz$$</p>
+<p>$$\mathop{===}\limits^{将z换成x}\int_x[p_{data}(x)log(D(x))+p_glog(1-D(x)]dx$$</p>
+<p>求其全局最优解，将G固定，求此时的$\mathop{max}\limits_{D}V(D)$</p>
+<p>$$\mathop{max}\limits_{D}V(D)=\mathop{max} \int_x[p_{data}(x)log(D(x))+p_glog(1-D(x)]dx$$</p>
+<p>对上式中的$D$求偏微分，使其偏微分为0，于是有</p>
+<p>$$\frac{\partial}{\partial D}[V(D)]=\int_x\frac{\partial}{\partial D}[p_{data}(x)log(D(x))+p_glog(1-D(x)]dx$$</p>
+<p>$$=\int_x\frac{\partial}{\partial D}[p_{data}\frac{1}{D(x)}+p_g\frac{1}{1-D(x)}]dx=0$$</p>
+<p>解得有：$D_G^* = \frac{p_{data}}{p_{data}+p_g}$</p>
+<p>再将$D_G^* = \frac{p_{data}}{p_{data}+p_g}$代回$\mathop{min}\limits_{G}\mathop{max}\limits_{D} V(G,D) $，此时有</p>
+<p>$$\mathop{min}\limits_{G}V(G,D)=E_{x\sim p_{data}}[log\frac{p_{data}}{p_{data}+p_g}]+E_{x\sim p_g}[log(1-\frac{p_{data}}{p_{data}+p_g})]$$       </p>
+<p>关于求解上式，有一个叫KL散度的东西，相对熵，衡量两个概率$P(x),Q(x)$分布的距离：如下</p>
+<p>$$D_{KL}(P||Q) = \sum\limits_{i=1}logP(x)\frac{P(x)}{Q(X)}=E_{P(x)}[log\frac{P(x)}{Q(x)}]$$<br>其中$P(x),Q(x)$均为$0-1$的概率值。</p>
+<p>在本式中，除以2处理</p>
+<p>$$\mathop{min}\limits_{G}V(G,D)=\mathop{min}\limits_{G}E_{x\sim p_{data}}[log\frac{p_{data}/2}{(p_{data}+p_g)/2}]+E_{x\sim p_g}[log(\frac{p_g/2}{(p_{data}+p_g)/2})]$$   </p>
+<p>$$=\mathop{min}\limits_{G}E_{x\sim p_{data}}[log\frac{p_{data}}{(p_{data}+p_g)/2}]+E_{x\sim p_g}[log(\frac{p_g}{(p_{data}+p_g)/2})]-log4$$  </p>
+<p>$$=\mathop{min}\limits_{G} KL(p_{data}||\frac{p_{data}+p_g{}}{2})+KL(p_g||\frac{p_{data}+p_g{}}{2})-log4\geq -log4$$</p>
+<p>当$p_g==p_{data}$时，取全局最优最小值。</p>
+<h2 id="论文中实现生成对抗伪算法"><a href="#论文中实现生成对抗伪算法" class="headerlink" title="论文中实现生成对抗伪算法"></a>论文中实现生成对抗伪算法</h2><p><img src="/archives/f2925084/1.png" alt="algorithm"></p>
+<blockquote>
+<p><a href="https://arxiv.org/abs/1406.2661" target="_blank" rel="noopener">gan论文</a></p>
+<p><a href="https://www.bilibili.com/video/BV1eE411g7xc" target="_blank" rel="noopener">视频讲解</a></p>
+</blockquote>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>略。</p>
+]]></content>
+      <categories>
+        <category>cv</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>风格迁移</title>
     <url>/archives/163371af.html</url>
     <content><![CDATA[<h2 id="先看一下迁移后的图片"><a href="#先看一下迁移后的图片" class="headerlink" title="先看一下迁移后的图片"></a>先看一下迁移后的图片</h2><a id="more"></a>

@@ -47,21 +47,22 @@
   };
 </script>
 
-  <meta name="description" content="传送门">
+  <meta name="description" content="简介gan，全名Generative Adversarial Nets，翻译成中文，生成对抗网络。顾名思义，有生成过程，有对抗过程的一种net model。 这种模型大致工作流程： 有一生产者，也可以称其为造假者，他的工作是生成类似于源数据的数据，比如与古董真假难辨的伪造古董。生产者在这里就扮演了伪造古董的“工艺大师”。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第88场周赛">
-<meta property="og:url" content="http://不如狐说.com/archives/5122a47f.html">
+<meta property="og:title" content="GAN">
+<meta property="og:url" content="http://不如狐说.com/archives/f2925084.html">
 <meta property="og:site_name" content="不如狐说">
-<meta property="og:description" content="传送门">
+<meta property="og:description" content="简介gan，全名Generative Adversarial Nets，翻译成中文，生成对抗网络。顾名思义，有生成过程，有对抗过程的一种net model。 这种模型大致工作流程： 有一生产者，也可以称其为造假者，他的工作是生成类似于源数据的数据，比如与古董真假难辨的伪造古董。生产者在这里就扮演了伪造古董的“工艺大师”。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://不如狐说.com/archives/5122a47f/1.png">
-<meta property="article:published_time" content="2020-04-13T09:10:46.758Z">
-<meta property="article:modified_time" content="2020-04-13T09:43:36.214Z">
+<meta property="og:image" content="http://不如狐说.com/archives/f2925084/1.png">
+<meta property="article:published_time" content="2020-04-19T05:49:41.054Z">
+<meta property="article:modified_time" content="2020-04-19T15:57:00.813Z">
 <meta property="article:author" content="蒙牛麦片">
+<meta property="article:tag" content="CV">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://不如狐说.com/archives/5122a47f/1.png">
+<meta name="twitter:image" content="http://不如狐说.com/archives/f2925084/1.png">
 
-<link rel="canonical" href="http://不如狐说.com/archives/5122a47f.html">
+<link rel="canonical" href="http://不如狐说.com/archives/f2925084.html">
 
 
 <script id="page-configurations">
@@ -76,7 +77,7 @@
 
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 
-  <title>第88场周赛 | 不如狐说</title>
+  <title>GAN | 不如狐说</title>
   
 
 
@@ -232,7 +233,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://不如狐说.com/archives/5122a47f.html">
+    <link itemprop="mainEntityOfPage" href="http://不如狐说.com/archives/f2925084.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -245,7 +246,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          第88场周赛
+          GAN
         </h1>
 
         <div class="post-meta">
@@ -256,7 +257,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-04-13 09:10:46 / 修改时间：09:43:36" itemprop="dateCreated datePublished" datetime="2020-04-13T09:10:46Z">2020-04-13</time>
+              <time title="创建时间：2020-04-19 05:49:41 / 修改时间：15:57:00" itemprop="dateCreated datePublished" datetime="2020-04-19T05:49:41Z">2020-04-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -264,8 +265,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Leetcode/" itemprop="url" rel="index">
-                    <span itemprop="name">Leetcode</span>
+                  <a href="/categories/cv/" itemprop="url" rel="index">
+                    <span itemprop="name">cv</span>
                   </a>
                 </span>
             </span>
@@ -283,7 +284,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -302,24 +303,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><a href="https://leetcode-cn.com/contest/weekly-contest-88/" target="_blank" rel="noopener">传送门</a></p>
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>gan，全名Generative Adversarial Nets，翻译成中文，生成对抗网络。顾名思义，有生成过程，有对抗过程的一种net model。</p>
+<p>这种模型大致工作流程：</p>
+<p>有一生产者，也可以称其为造假者，他的工作是生成类似于源数据的数据，比如与古董真假难辨的伪造古董。生产者在这里就扮演了伪造古董的“工艺大师”。</p>
 <a id="more"></a>
 
-<h4 id="848-字母移位"><a href="#848-字母移位" class="headerlink" title="848. 字母移位"></a><a href="https://leetcode-cn.com/problems/shifting-letters/" target="_blank" rel="noopener">848. 字母移位</a></h4><p><strong>题解</strong>：根据描述，第一反应模拟这个过程，超时。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">shiftingLetters</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; shifts)</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;shifts.<span class="built_in">size</span>();i++)</span><br><span class="line">        &#123;</span><br><span class="line">            S = shiftStr(S,shifts[i],i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> S;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">shiftStr</span><span class="params">(<span class="built_in">string</span> &amp;s,<span class="keyword">int</span> shift,<span class="keyword">int</span> <span class="built_in">end</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        shift%=<span class="number">26</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length()&amp;&amp;i&lt;=<span class="built_in">end</span>;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            s[i] =<span class="string">'a'</span> + (s[i]-<span class="string">'a'</span>+shift)%<span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>第二反应：根据上述这个模拟超时过程，想一优化，shifts数组后面开始，逐个偏移，根据描述，后面的偏移会加到前面。于是有了后缀和这一说法。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">shiftingLetters</span><span class="params">(<span class="built_in">string</span> S, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; shifts)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=shifts.<span class="built_in">size</span>()<span class="number">-2</span>;i&gt;=<span class="number">0</span>;--i)&#123;</span><br><span class="line">            shifts[i]%=<span class="number">26</span>;</span><br><span class="line">            shifts[i]+=shifts[i+<span class="number">1</span>];</span><br><span class="line">            <span class="comment">//计算后缀和</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;S.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">            S[i] =<span class="string">'a'</span> + (S[i]-<span class="string">'a'</span>+shifts[i])%<span class="number">26</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> S;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="849-到最近的人的最大距离"><a href="#849-到最近的人的最大距离" class="headerlink" title="849. 到最近的人的最大距离"></a><a href="https://leetcode-cn.com/problems/maximize-distance-to-closest-person/" target="_blank" rel="noopener">849. 到最近的人的最大距离</a></h4><p><strong>题解</strong>：根据描述，本题可转换为最长连续0的长度。分三种情况，一开始就连续的0（左边无1），在中间连续的0（指0的左右都有1），在末尾连续的0（右边无1）.</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">maxDistToClosest</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; seats)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> N = seats.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> K = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        &#123;<span class="comment">//统计中间0的长度，</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">                K = <span class="number">0</span>; </span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                K++;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, (K + <span class="number">1</span>) / <span class="number">2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i)</span><br><span class="line">        &#123;<span class="comment">//统计第一种情况</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = N<span class="number">-1</span>; i &gt;= <span class="number">0</span>; --i)</span><br><span class="line">        &#123;<span class="comment">//统计第三中情况</span></span><br><span class="line">            <span class="keyword">if</span> (seats[i] == <span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                ret = <span class="built_in">max</span>(ret, N - <span class="number">1</span> - i);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="851-喧闹和富有"><a href="#851-喧闹和富有" class="headerlink" title="851. 喧闹和富有"></a><a href="https://leetcode-cn.com/problems/loud-and-rich/" target="_blank" rel="noopener">851. 喧闹和富有</a></h4><p><strong>题解</strong>：根据描述，好像描述有点复杂，上图。</p>
-<p><img src="/archives/5122a47f/1.png" alt></p>
-<p>依据谁比谁更穷（比如0号选手比1号选手穷）这样的关系，构建了一个有向图。旁边红字对应的是每位选手的安静值。题目的意思就是把每位选手的安静值更新为所有比他富有的选手的安静值中，最小值对应的选手，怎么办？模拟图的深搜过程，假设DFS(i)表示所有比i号选手富有的选手的最小安静值对应的选手。那么,写成代码</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;answer;</span><br><span class="line">   <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;graph;</span><br><span class="line">   <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">loudAndRich</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; richer, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; quiet)</span> </span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> N = quiet.<span class="built_in">size</span>();</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> node=<span class="number">0</span>;node&lt;N;++node)</span><br><span class="line">       &#123;<span class="comment">//邻接表初始化</span></span><br><span class="line">           <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v;</span><br><span class="line">           graph.push_back(v);</span><br><span class="line">           answer.push_back(<span class="number">-1</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">auto</span> i:richer)</span><br><span class="line">           graph[i[<span class="number">1</span>]].push_back(i[<span class="number">0</span>]);</span><br><span class="line">       <span class="comment">//邻接表赋值</span></span><br><span class="line">   </span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> node=<span class="number">0</span>;node&lt;N;node++)</span><br><span class="line">           dfs(node,quiet);</span><br><span class="line">   </span><br><span class="line">       <span class="keyword">return</span> answer;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">int</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> node,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;quiet)</span> </span></span><br><span class="line"><span class="function">   </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (answer[node] == <span class="number">-1</span>) </span><br><span class="line">       &#123;</span><br><span class="line">           answer[node] = node;</span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> child: graph[node])</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">int</span> cand = dfs(child,quiet);</span><br><span class="line">               <span class="keyword">if</span> (quiet[cand] &lt; quiet[answer[node]])</span><br><span class="line">                   answer[node] = cand;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> answer[node];</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="850-矩形面积-II"><a href="#850-矩形面积-II" class="headerlink" title="850. 矩形面积 II"></a><a href="https://leetcode-cn.com/problems/rectangle-area-ii/" target="_blank" rel="noopener">850. 矩形面积 II</a></h4><p>不会，待填坑，开始复习简历上的内容了。</p>
+<p>有一对抗者，形象一点称其为鉴别者，他的工作就是判断某一数据是否来源于源数据，比如说，判断某一可能是古董的工艺品是不是真的古董。对抗者在这里就充当了“鉴宝大师”。</p>
+<p>“工艺大师”和“鉴宝大师”相互竞争（对抗），驱使者他们各自变得更加优秀（前者生成真假难辨的古董，后者对再怎么真假难辨的古董也能分辨出来）。</p>
+<p><strong>gan的目的</strong>就是让这个“工艺大师”能够生成无限接近于（相似于）源数据的数据。对于工艺大师，就是生成“古董”。</p>
+<h2 id="gan数学表达"><a href="#gan数学表达" class="headerlink" title="gan数学表达"></a>gan数学表达</h2><p>假设源数据集(古董数据)分布：$p_{data}$</p>
+<p>假设生成的数据集(伪造的古董)分布：$p_{g}(x_i,\theta_g)$，定义一个先验噪声$p_z(z)$,经过多层感知机处理，噪声经过$G(z,\theta_g)$处理得到$x$，即$x = G(z,\theta_g)$.</p>
+<p>假设$D(x)$表示$x$来自源数据集$p_{data}$被鉴别为真（古董）的概率，那么$D(G(z))$则可以表示为$x = G(z,\theta_g)$来自于$p_g$而被鉴别为真（古董的概率）。</p>
+<ol>
+<li>对于鉴宝大师，他的目标是尽可能的使$D(x)$趋于1，使$D(G(z))$趋于0。因此可以这样表达：<br>$$\mathop{max}\limits_{D} E_{x\sim p_{data}}[logD(X)]+E_{z\sim p_z}[log(1-D(G(z)))]$$</li>
+<li>对于工艺大师，他的目标是尽可能的使$D(G(x))$趋于1，产生误判。因此可以这样表达：<br>$$\mathop{min}\limits_{G}E_{z\sim p_z}[log(1-D(G(z)))]$$</li>
+<li>结合以上两者，可以归纳为一个公式<br>$$\mathop{min}\limits_{G}\mathop{max}\limits_{D} E_{x\sim p_{data}}[logD(X)]+E_{z\sim p_z}[log(1-D(G(z)))]$$</li>
+</ol>
+<h2 id="gan数学表达的全局最优解"><a href="#gan数学表达的全局最优解" class="headerlink" title="gan数学表达的全局最优解"></a>gan数学表达的全局最优解</h2><p>将上式记为</p>
+<p>$$\mathop{min}\limits_{G}\mathop{max}\limits_{D} V(G,D) = \mathop{min}\limits_{G}\mathop{max}\limits_{D} E_{x\sim p_{data}}[logD(X)]+E_{z\sim p_z}[log(1-D(G(z)))]$$</p>
+<p>$$\mathop{=====}\limits^{将期望用积分表达}\int_xp_{data}(x)log(D(x))dx+\int_zp(z)log(1-D(G(z)))dz$$</p>
+<p>$$\mathop{===}\limits^{将z换成x}\int_x[p_{data}(x)log(D(x))+p_glog(1-D(x)]dx$$</p>
+<p>求其全局最优解，将G固定，求此时的$\mathop{max}\limits_{D}V(D)$</p>
+<p>$$\mathop{max}\limits_{D}V(D)=\mathop{max} \int_x[p_{data}(x)log(D(x))+p_glog(1-D(x)]dx$$</p>
+<p>对上式中的$D$求偏微分，使其偏微分为0，于是有</p>
+<p>$$\frac{\partial}{\partial D}[V(D)]=\int_x\frac{\partial}{\partial D}[p_{data}(x)log(D(x))+p_glog(1-D(x)]dx$$</p>
+<p>$$=\int_x\frac{\partial}{\partial D}[p_{data}\frac{1}{D(x)}+p_g\frac{1}{1-D(x)}]dx=0$$</p>
+<p>解得有：$D_G^* = \frac{p_{data}}{p_{data}+p_g}$</p>
+<p>再将$D_G^* = \frac{p_{data}}{p_{data}+p_g}$代回$\mathop{min}\limits_{G}\mathop{max}\limits_{D} V(G,D) $，此时有</p>
+<p>$$\mathop{min}\limits_{G}V(G,D)=E_{x\sim p_{data}}[log\frac{p_{data}}{p_{data}+p_g}]+E_{x\sim p_g}[log(1-\frac{p_{data}}{p_{data}+p_g})]$$       </p>
+<p>关于求解上式，有一个叫KL散度的东西，相对熵，衡量两个概率$P(x),Q(x)$分布的距离：如下</p>
+<p>$$D_{KL}(P||Q) = \sum\limits_{i=1}logP(x)\frac{P(x)}{Q(X)}=E_{P(x)}[log\frac{P(x)}{Q(x)}]$$<br>其中$P(x),Q(x)$均为$0-1$的概率值。</p>
+<p>在本式中，除以2处理</p>
+<p>$$\mathop{min}\limits_{G}V(G,D)=\mathop{min}\limits_{G}E_{x\sim p_{data}}[log\frac{p_{data}/2}{(p_{data}+p_g)/2}]+E_{x\sim p_g}[log(\frac{p_g/2}{(p_{data}+p_g)/2})]$$   </p>
+<p>$$=\mathop{min}\limits_{G}E_{x\sim p_{data}}[log\frac{p_{data}}{(p_{data}+p_g)/2}]+E_{x\sim p_g}[log(\frac{p_g}{(p_{data}+p_g)/2})]-log4$$  </p>
+<p>$$=\mathop{min}\limits_{G} KL(p_{data}||\frac{p_{data}+p_g{}}{2})+KL(p_g||\frac{p_{data}+p_g{}}{2})-log4\geq -log4$$</p>
+<p>当$p_g==p_{data}$时，取全局最优最小值。</p>
+<h2 id="论文中实现生成对抗伪算法"><a href="#论文中实现生成对抗伪算法" class="headerlink" title="论文中实现生成对抗伪算法"></a>论文中实现生成对抗伪算法</h2><p><img src="/archives/f2925084/1.png" alt="algorithm"></p>
+<blockquote>
+<p><a href="https://arxiv.org/abs/1406.2661" target="_blank" rel="noopener">gan论文</a></p>
+<p><a href="https://www.bilibili.com/video/BV1eE411g7xc" target="_blank" rel="noopener">视频讲解</a></p>
+</blockquote>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>略。</p>
 
     </div>
 
@@ -330,15 +354,18 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\archives\a9c25f88.html" rel="bookmark">第83场周赛</a></div>
+      <div class="popular-posts-title"><a href="\archives\163371af.html" rel="bookmark">风格迁移</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\archives\c4e3d004.html" rel="bookmark">第184场周赛</a></div>
+      <div class="popular-posts-title"><a href="\archives\b66ffe92.html" rel="bookmark">QQ空间</a></div>
     </li>
   </ul>
 
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/CV/" rel="tag"># CV</a>
+          </div>
 
         
   <div class="post-widgets">
@@ -351,13 +378,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/archives/4feb94cc.html" rel="prev" title="第86场周赛">
-      <i class="fa fa-chevron-left"></i> 第86场周赛
+    <a href="/archives/163371af.html" rel="prev" title="风格迁移">
+      <i class="fa fa-chevron-left"></i> 风格迁移
     </a></div>
-      <div class="post-nav-item">
-    <a href="/archives/a029fff2.html" rel="next" title="第87场周赛">
-      第87场周赛 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -417,7 +441,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#848-字母移位"><span class="nav-number">1.</span> <span class="nav-text">848. 字母移位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#849-到最近的人的最大距离"><span class="nav-number">2.</span> <span class="nav-text">849. 到最近的人的最大距离</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#851-喧闹和富有"><span class="nav-number">3.</span> <span class="nav-text">851. 喧闹和富有</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#850-矩形面积-II"><span class="nav-number">4.</span> <span class="nav-text">850. 矩形面积 II</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gan数学表达"><span class="nav-number">2.</span> <span class="nav-text">gan数学表达</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gan数学表达的全局最优解"><span class="nav-number">3.</span> <span class="nav-text">gan数学表达的全局最优解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文中实现生成对抗伪算法"><span class="nav-number">4.</span> <span class="nav-text">论文中实现生成对抗伪算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">5.</span> <span class="nav-text">实验</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
