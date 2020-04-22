@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://不如狐说.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="前言动态规划(Dynamic programming)，通过组合子问题的解来求解原问题。当原问题的子问题存在重叠的情况，即不同的子问题具有公共的子子问题。动态规划算法对每个子问题只求解一次，将其解保存到一个表格中，从而无需每次求解一个子子问题时都重新计算，避免了这种不必要的计算工作。 动态规划方法通常用来求解最优化问题。这类问题可以有很多可行解，每个解都有一个值，我们希望寻找具有最优值的解。 我们">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态🐢❀">
+<meta property="og:url" content="http://不如狐说.com/archives/63b7a160.html">
+<meta property="og:site_name" content="不如狐说">
+<meta property="og:description" content="前言动态规划(Dynamic programming)，通过组合子问题的解来求解原问题。当原问题的子问题存在重叠的情况，即不同的子问题具有公共的子子问题。动态规划算法对每个子问题只求解一次，将其解保存到一个表格中，从而无需每次求解一个子子问题时都重新计算，避免了这种不必要的计算工作。 动态规划方法通常用来求解最优化问题。这类问题可以有很多可行解，每个解都有一个值，我们希望寻找具有最优值的解。 我们">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://不如狐说.com/archives/63b7a160/1.png">
+<meta property="og:image" content="http://不如狐说.com/archives/63b7a160/2.png">
+<meta property="og:image" content="http://不如狐说.com/archives/63b7a160/3.png">
+<meta property="og:image" content="http://不如狐说.com/archives/63b7a160/4.png">
+<meta property="og:image" content="http://不如狐说.com/archives/63b7a160/5.png">
+<meta property="article:published_time" content="2020-04-22T17:44:49.703Z">
+<meta property="article:modified_time" content="2020-04-22T17:43:53.340Z">
+<meta property="article:author" content="蒙牛麦片">
+<meta property="article:tag" content="DST">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://不如狐说.com/archives/63b7a160/1.png">
+
+<link rel="canonical" href="http://不如狐说.com/archives/63b7a160.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+<!-- jquery -->
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+  <title>动态🐢❀ | 不如狐说</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不如狐说</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">大苏打</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">16</span></a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://不如狐说.com/archives/63b7a160.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="蒙牛麦片">
+      <meta itemprop="description" content="不知老之将至">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不如狐说">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          动态🐢❀
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-22 17:44:49 / 修改时间：17:43:53" itemprop="dateCreated datePublished" datetime="2020-04-22T17:44:49Z">2020-04-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DST/" itemprop="url" rel="index">
+                    <span itemprop="name">DST</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>动态规划(Dynamic programming)，通过组合子问题的解来求解原问题。当原问题的子问题存在重叠的情况，即不同的子问题具有公共的<code>子子</code>问题。动态规划算法对每个子问题只求解一次，将其解保存到一个表格中，从而无需每次求解一个子子问题时都重新计算，<code>避免</code>了这种不必要的计算工作。</p>
+<p>动态规划方法通常用来求解最优化问题。这类问题可以有很多可行解，每个解都有一个值，我们希望寻找具有最优值的解。</p>
+<p>我们按照如下4个步骤来设计一个动态规划算法</p>
+<ol>
+<li><p>刻画一个最优解的结构特征</p>
+</li>
+<li><p>递归地定义最优解的值</p>
+</li>
+<li><p>计算最优解的值，通常采用自底向上的方法</p>
+</li>
+<li><p>利用计算出来的信息构建最优解</p>
+<a id="more"></a>
+
+<blockquote>
+<p>算法导论15章序</p>
+</blockquote>
+</li>
+</ol>
+<p>实现方式</p>
+<ol>
+<li>自顶向下递归实现</li>
+<li>带备忘录形式的自顶向下</li>
+<li>自底向上</li>
+</ol>
+<p>在动态规划中，首先需要求得子问题的最优解，然后通过<code>状态转移</code>，求得原问题的解。在求原问题的过程中（状态转移），需要有一些<code>选择</code>，做出这些选择需要一些<code>代价</code>。原问题的解就等于子问题的解加上这次选择的<code>代价</code>。</p>
+<p>例如，在<code>无权最短路径问题</code>具有以下最优子结构性质：如果节点$x$位于从源节点$u$到目标节点$v$的最短路径上，则$u$到$v$的最短路径<strong>是</strong>$u$到$x$的最短路径<strong>和</strong>从$x$到$v$<strong>之和</strong>。如在所有节点对的最短路径算法中，Floyd-Warshall和Bellman-Fordare均是动态规划。</p>
+<h1 id="最长上升子序列Longest-Increasing-Subsequence-LIS"><a href="#最长上升子序列Longest-Increasing-Subsequence-LIS" class="headerlink" title="最长上升子序列Longest Increasing Subsequence (LIS)"></a>最长上升子序列Longest Increasing Subsequence (LIS)</h1><p><strong>描述：</strong>给定一个序列，求这个序列的子序列的最长上式子序列的长度，子序列不必连续。</p>
+<p>比如序列$[10,22,9,33,21,50,41,60,80]$的LIS长度为6,LIS为$[10,22,33,50,60,80]$。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Input : nums = &#123;3, 10, 2, 1, 20&#125;</span><br><span class="line">Output : Length of LIS = 3</span><br><span class="line">The longest increasing subsequence is 3, 10, 20</span><br><span class="line">Input : nums = &#123;3, 2&#125;</span><br><span class="line">Output : Length of LIS = 1</span><br><span class="line">The longest increasing subsequences are &#123;3&#125; and &#123;2&#125;</span><br><span class="line">Input : nums = &#123;50, 3, 10, 7, 40, 80&#125;</span><br><span class="line">Output : Length of LIS = 4</span><br><span class="line">The longest increasing subsequence is &#123;3, 7, 40, 80&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最优子结构：让$nums[0 …n-1]$为输入数组，$L(i)$为索引$i$处结束的$LIS$的长度，并且$nums[i]$是$LIS$的最后一个元素。则$L(i)$可递归表示为:<br>$L(i) = 1 + max(L(j))$，其中$0 &lt; j &lt; i, nums[j] &lt; nums[i]$<br>$L(i) = 1$，如果不存在上面的$j$。<br>要找到给定数组的LIS，需要返回$max(L(i))$，其中$0 &lt; i &lt; n%$。可以看到$LIS$问题满足最优子结构性质，原问题可以用子问题的解来解决。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ret = <span class="number">0</span>,n = nums.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;lis(n);</span><br><span class="line">        <span class="comment">//初始化一维dp表格</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">            lis[i] = <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//自底向上规划</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>;i&lt;n;i++)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;i;j++) </span><br><span class="line">                <span class="keyword">if</span> (nums[i] &gt; nums[j] &amp;&amp; lis[i] &lt; lis[j] + <span class="number">1</span>)</span><br><span class="line">                    lis[i] = lis[j] + <span class="number">1</span>;</span><br><span class="line">        <span class="comment">//找最大值</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(ret&lt;lis[i])ret=lis[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="最长共同子序列Longest-Common-Subsequence-LCS"><a href="#最长共同子序列Longest-Common-Subsequence-LCS" class="headerlink" title="最长共同子序列Longest Common Subsequence(LCS)"></a>最长共同子序列Longest Common Subsequence(LCS)</h1><p><strong>描述：</strong>给定两个序列，求在者两个序列中最长公共子序列的长度。子序列相不是从原序列中连续相邻取得。例如$“abc”, “abg”, “bdf”, “aeg”, ‘”acefg”$均是$“abcdefg”$的子序列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">序列“ABCDGH”和“AEDFHR”有公共最长子序列“ADH”，长度为3.</span><br><span class="line">序列“AGGTAB”和“GXTXAYB”有公共最长子序列“GTAB”，长度为4.</span><br></pre></td></tr></table></figure>
+
+<p>最优子结构：设输入序列为$X[0…m - 1]$和$Y [0…n-1]$，长度分别为m和n。<br>假设$L(X[i],Y[j])$为两个序列$X$和$Y$在位置$i$和位置$j$的$LCS$长度。<br>如果两个序列的最后一个字符相等（$X[m-1] == Y[n-1]$)，则<br>$$L(X[m-1],Y[n-1]) =1+L(X[m-2],Y[n-2])$$<br>如果两个序列的最后一个字符不相等($X[m-1]!= Y[n-2]$)，则<br>$$L(X[m-1],Y[n-1])= max(L(X[m-2],Y[n-1]),L(X[m-1]),Y[n-2]))$$</p>
+<p>如有序列“AGGTAB” 和“GXTXAYB”。</p>
+<ol>
+<li><p>它们最后一个字符相等<br>$$L(“AGGTAB”, “GXTXAYB”) = 1 + L(“AGGTA”, “GXTXAY”)$$</p>
+</li>
+<li><p>再考虑“AGGTA” 和“GXTXAY“，他们最后一个字符并不相等。<br>$$L(“AGGTAB”, “GXTXAY”) = max(L(“AGGTA”, “GXTXAY”),L(“AGGTAB”, “GXTXA”)  )$$</p>
+</li>
+<li><p>依次递推，如下所示。</p>
+<p><img src="/archives/63b7a160/1.png" alt></p>
+</li>
+<li><p>到达边界以后，停止了规划。值得注意的是，按照上面这个走法，复杂度很高，不可取。因此考虑自底向上解法。如下。<img src="/archives/63b7a160/2.png" alt></p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">longestCommonSubsequence</span><span class="params">(<span class="built_in">string</span> text1, <span class="built_in">string</span> text2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = text1.<span class="built_in">size</span>(),n = text2.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;L(m+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n+<span class="number">1</span>,<span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;=m; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;=n; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(i == <span class="number">0</span> || j == <span class="number">0</span>) L[i][j] = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> (text1[i<span class="number">-1</span>] == text2[j<span class="number">-1</span>])</span><br><span class="line">                    L[i][j] = L[i<span class="number">-1</span>][j<span class="number">-1</span>] + <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    L[i][j] = <span class="built_in">max</span>(L[i<span class="number">-1</span>][j], L[i][j<span class="number">-1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> L[m][n];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="编辑距离"><a href="#编辑距离" class="headerlink" title="编辑距离"></a>编辑距离</h1><p><a href="https://leetcode-cn.com/problems/edit-distance/" target="_blank" rel="noopener">72. 编辑距离</a></p>
+<p>最优子结构：设输入序列为$X[0…m - 1]$和$Y [0…n-1]$，长度分别为m和n。<br>假设$dp(X[i],Y[j])$为两个序列$X$和$Y$在位置$i$和位置$j$的最短编辑数。<br>如果两个序列的最后一个字符相等（或$X[m-1] == Y[n-1]$)，则<br>$$dp(X[m-1],Y[n-1]) =1+dp(X[m-2],Y[n-2])$$<br>如果两个序列的最后一个字符不相等($X[m-1]!= Y[n-2]$)，则有三种选择：取三种选择最小操作数<br>$$dp(X[m-1],Y[n-1])= min(dp(X[m-2],Y[n-1]),dp(X[m-1]),Y[n-2]),dp(X[m-2],Y[n-2]))$$</p>
+<p>如有序列“AGAB” 和“GXAYB”。</p>
+<ol>
+<li><p>它们最后一个字符相等<br>$$dp(“AGAB”, “GXAYB”) = 1 + dp(“AGA”, “GXAY”)$$</p>
+</li>
+<li><p>再考虑“AGA” 和“GXAY“，他们最后一个字符并不相等。<br>$$dp(“AGA”,“GXAY”) =min(dp(“AG”, “GXAY”),dp(“AGA”, “GXA”),dp(“AG”,”GXA”))$$</p>
+</li>
+<li><p>按照上面这种递归，数据量大就会超时，自底向上书写代码。</p>
+</li>
+<li><p>当其中一个序列长度为0时，编辑距离明显是到达他的长度。</p>
+<p>当当前位置$i,j$字符相等时候，编辑距离$dp[i][j]=dp[i-1][j-1]$</p>
+<p>当当前位置$i,j$字符相等时候，编辑距离$dp[i][j]=min(dp[i-1][j-1],dp[i-1][j],dp[i][j-1])$</p>
+<p>如图所示，计算过程</p>
+<p><img src="/archives/63b7a160/3.png" alt></p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minDistance</span><span class="params">(<span class="built_in">string</span> word1, <span class="built_in">string</span> word2)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = word1.length(),n = word2.length();</span><br><span class="line">        <span class="keyword">int</span> dp[m+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=m;++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=n;++j)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(i==<span class="number">0</span>) dp[i][j] =j;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(j==<span class="number">0</span>)dp[i][j]=i;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(word1[i<span class="number">-1</span>]==word2[j<span class="number">-1</span>])dp[i][j] = dp[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">                <span class="keyword">else</span> dp[i][j] = <span class="number">1</span>+<span class="built_in">min</span>(<span class="built_in">min</span>(dp[i<span class="number">-1</span>][j],dp[i<span class="number">-1</span>][j<span class="number">-1</span>]),dp[i][j<span class="number">-1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[m][n];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="最小成本路径Minimum-Cost-Path-MCP"><a href="#最小成本路径Minimum-Cost-Path-MCP" class="headerlink" title="最小成本路径Minimum Cost Path(MCP)"></a>最小成本路径Minimum Cost Path(MCP)</h1><p><a href="https://leetcode-cn.com/problems/minimum-path-sum/" target="_blank" rel="noopener">64. 最小路径和</a></p>
+<ol>
+<li><p>最优子结构：到达(m, n)的必须经过：(m-1, n-1)，(m-1, n)，(m, n-1)中的一个，所以到达(m, n)的最小代价可以写成<br>$$dp(m, n) = min(dp(m-1, n-1), dp(m-1, n),dp(m, n-1))+weight[m][n]$$</p>
+</li>
+<li><p>在递归求解，有重复子问题，递归不太适合。</p>
+<p>采用填表格的形式计算</p>
+<p><img src="/archives/63b7a160/4.png" alt></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">minPathSum</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = grid.<span class="built_in">size</span>(),n = grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;dp(m+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(n+<span class="number">1</span>,<span class="number">0</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)dp[i][<span class="number">0</span>]=dp[i<span class="number">-1</span>][<span class="number">0</span>]+grid[i<span class="number">-1</span>][<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)dp[<span class="number">0</span>][i]=dp[<span class="number">0</span>][i<span class="number">-1</span>]+grid[<span class="number">0</span>][i<span class="number">-1</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">                dp[i][j] = <span class="built_in">min</span>(dp[i<span class="number">-1</span>][j<span class="number">-1</span>],<span class="built_in">min</span>(dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>]))+grid[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[m][n];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="兑换硬币"><a href="#兑换硬币" class="headerlink" title="兑换硬币"></a>兑换硬币</h1><p><strong>描述：</strong>假定有一整钱N，如果我们需要将其兑换为零钱。零钱的选择从数组$S= [S1, S2…]$中选择。并且每种零钱数量是无限的。那么有多少种兑换方式？</p>
+<p>如，对于N=4和$S=[1,2,3]$，有四个解:{1,1,1,1}，{1,1,2}，{2,2}，{1,3}。那么结果为4。<br>对于N=10和$S =[2, 5, 3, 6]$，有5个解:{2,2,2,2,2}，{2,2,3,3}，{2,2,6}，{2,3,5}和{5,5}。所以结果为5。</p>
+<p>最优子结构：为了计算解的总数，我们可以把所有的集合解分成两个部分。1. 不含s[m]的解；至少含有一个s[m]的解。<br>令count(vector<int>s,m, n)为计算解的个数的函数，那么可写成count(S,m,n) = count(S,m-1, n)+count(S,m, n-S[m])，递归求解。</int></p>
+<p>很明显，会超时，因为在递归求解的时候有很多重复计算。</p>
+<ol start="2">
+<li><p>怎么用dp方程表示呢？$dp[N][m]$表示用数组$S[m]$得到N得数量，那么$$dp[N][m] = dp[N][m-1]+dp[N-S[m]][m]$$<br>初始化，当N=0时，只有一种取法。然后，填充剩余部分。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">change</span><span class="params">(<span class="keyword">int</span> N, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;S)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(S.<span class="built_in">size</span>()==<span class="number">0</span>&amp;&amp;N==<span class="number">0</span>)<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(S.<span class="built_in">size</span>()==<span class="number">0</span>&amp;&amp;N!=<span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> m = S.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">int</span> x,y;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;dp(N+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(m,<span class="number">1</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=N;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//i-s[j]&gt;=0,表示可以取s[j]，</span></span><br><span class="line">                <span class="comment">//若小于的话，表示不可取，为0</span></span><br><span class="line">                <span class="keyword">if</span>((i-S[j])&gt;=<span class="number">0</span>) x=dp[i-S[j]][j];</span><br><span class="line">                <span class="keyword">else</span> x = <span class="number">0</span>;</span><br><span class="line">                <span class="comment">//当不去s[m]的时候，那么取s[m-1]</span></span><br><span class="line">                <span class="keyword">if</span>(j&gt;=<span class="number">1</span>) y = dp[i][j<span class="number">-1</span>];</span><br><span class="line">                <span class="keyword">else</span> y=<span class="number">0</span>;</span><br><span class="line">                <span class="comment">//取s[m]的数量加上不取s[m]的数量</span></span><br><span class="line">                dp[i][j] = x+y;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[N][m<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="矩阵链乘法"><a href="#矩阵链乘法" class="headerlink" title="矩阵链乘法"></a>矩阵链乘法</h1><p>有n个矩阵的链$&lt;A_1A_2…A_n&gt;$，矩阵$A_i$的大小为$p_{i-1}×p$，求计算该矩阵乘法所需的最小的标量乘法次数。</p>
+<p>如：假设A为10×30矩阵，B为30×5矩阵，C为5×60矩阵。然后,<br>(AB)C =(10×30×5)+(10×5×60)= 1500 + 3000 = 4500个乘法操作。<br>A(BC) =(30×5×60)+(10×30×60)= 9000 + 18000 = 27000个乘法操作。</p>
+<p>最优子结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">int matricMultiply(vector&lt;int&gt;&amp;p) &#123;</span><br><span class="line">        int n &#x3D; p.size();</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt;dp(n,vector&lt;int&gt;(n,0));</span><br><span class="line">        for(int L&#x3D;2;L&lt;n;L++)&#123;</span><br><span class="line">            for(int i&#x3D;1;i&lt;n-L+1;i++)&#123;</span><br><span class="line">                int j &#x3D; i+L-1;</span><br><span class="line">                dp[i][j] &#x3D; INT_MAX;</span><br><span class="line">                for(int k&#x3D;i;k&lt;j;k++)&#123;</span><br><span class="line">                    int q &#x3D; dp[i][k]+dp[k+1][j]+p[i-1]*p[k]*p[j];</span><br><span class="line">                    if(q&lt;dp[i][j])dp[i][j] &#x3D; q;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        for(int i&#x3D;0;i&lt;n;i++)&#123;</span><br><span class="line">            for(int j&#x3D;0;j&lt;n;j++)&#123;</span><br><span class="line">                cout&lt;&lt;dp[i][j]&lt;&lt;&#39; &#39;;</span><br><span class="line">            &#125;</span><br><span class="line">            cout&lt;&lt;endl;</span><br><span class="line">        &#125;</span><br><span class="line">        dp[1][n-1];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="二项式系数"><a href="#二项式系数" class="headerlink" title="二项式系数"></a>二项式系数</h1><p>描述：二项式系数$C(n, k)$定义为$(1+x)^n$展开式中$X^k$的系数。</p>
+<p>最优子结构：$C(n, k)$的值可以用以下标准二项式公式计算</p>
+<p>$$C(n, k) = C(n-1, k-1) + C(n-1, k)$$<br>$$C(n, 0) = C(n, n) = 1$$</p>
+<p>按照这个公式，建立下面这样表格，递推计算。<img src="/archives/63b7a160/5.png" alt></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binomialCoeff</span><span class="params">(<span class="keyword">int</span> n,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;c(n+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(k+<span class="number">1</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;=<span class="built_in">min</span>(i,k);j++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(j==<span class="number">0</span>||j==i) c[i][j]=<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span> c[i][j] = c[i<span class="number">-1</span>][j<span class="number">-1</span>]+c[i<span class="number">-1</span>][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> c[n][k];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="0-1背包问题"><a href="#0-1背包问题" class="headerlink" title="0-1背包问题"></a>0-1背包问题</h1><p><strong>描述：</strong>经典问题， 给定$n$种物品和一背包。物品$i$的重量是$w_i$，其价值为$v_i$，背包的容量为$W$。问应如何选择装入背包的物品，使得装入背包中物品的总价值$V$最大?</p>
+<p>最优子结构：对于一种物品$i$，要么装入背包，要么不装。所以可以设置一种物品的装入状态取0和1，那么,对于位置$i$处的背包装满容量$W$的最大值可以写成$V[i][W] = max(V[i-1][W-w_i]+v_i,V[i-1][W])$</p>
+<p>第一项，表示取位置$i$处的物品，那么需要加上物品$i$的价值；第二项表示不取位置$i$处的物品，那么总价值就时$V[i-1][W]$，二者取较大值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">knapSack</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;weight,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp;value,<span class="keyword">int</span> W)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = weight.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt;dp(n+<span class="number">1</span>,<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(W+<span class="number">1</span>));</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> w = <span class="number">0</span>;w&lt;W;w++)&#123;</span><br><span class="line">                <span class="keyword">if</span>(i==<span class="number">0</span>||w==<span class="number">0</span>) dp[i][w] = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(weight[i<span class="number">-1</span>]&lt;=w) dp[i][w] = <span class="built_in">max</span>(value[i<span class="number">-1</span>]+dp[i<span class="number">-1</span>][w-weight[i<span class="number">-1</span>]],dp[i<span class="number">-1</span>][w]);</span><br><span class="line">                <span class="keyword">else</span> dp[i][w] = dp[i<span class="number">-1</span>][w];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n][W];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DST/" rel="tag"># DST</a>
+          </div>
+
+        
+  <div class="post-widgets">
+    <div class="wp_rating">
+      <div id="wpac-rating"></div>
+    </div>
+  </div>
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/archives/ffc3f523.html" rel="prev" title="Crawl Dy">
+      <i class="fa fa-chevron-left"></i> Crawl Dy
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最长上升子序列Longest-Increasing-Subsequence-LIS"><span class="nav-number">2.</span> <span class="nav-text">最长上升子序列Longest Increasing Subsequence (LIS)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最长共同子序列Longest-Common-Subsequence-LCS"><span class="nav-number">3.</span> <span class="nav-text">最长共同子序列Longest Common Subsequence(LCS)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编辑距离"><span class="nav-number">4.</span> <span class="nav-text">编辑距离</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最小成本路径Minimum-Cost-Path-MCP"><span class="nav-number">5.</span> <span class="nav-text">最小成本路径Minimum Cost Path(MCP)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#兑换硬币"><span class="nav-number">6.</span> <span class="nav-text">兑换硬币</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#矩阵链乘法"><span class="nav-number">7.</span> <span class="nav-text">矩阵链乘法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二项式系数"><span class="nav-number">8.</span> <span class="nav-text">二项式系数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0-1背包问题"><span class="nav-number">9.</span> <span class="nav-text">0-1背包问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="蒙牛麦片"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">蒙牛麦片</p>
+  <div class="site-description" itemprop="description">不知老之将至</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/vvvsk.github.io" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;vvvsk.github.io" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/781851839@qq.com.com" title="E-Mail → 781851839@qq.com.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+
+<div style="">
+  <canvas id="canvas" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //声明canvas的宽高
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //存储时间数据
+    var data = [];
+    //存储运动的小球
+    var balls = [];
+    //设置粒子半径
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //存储时间数字，由十位小时、个位小时、冒号、十位分钟、个位分钟、冒号、十位秒钟、个位秒钟这7个数字组成
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*生成点阵数字*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*更新时钟*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //时间发生变化
+            if(NewData[i] !== data[i]){
+                //将变化的数字值和在data数组中的索引存储在changeNumArray数组中
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //增加小球
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*更新小球状态*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*增加要运动的小球*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*渲染*/
+    function render(){
+        //重置画布宽度，达到清空画布的效果
+        canvas.height = 100;
+        //渲染时钟
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //渲染小球
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //更新时钟
+        updateDigitTime();
+        //更新小球状态
+        updateBalls();
+        //渲染
+        render();
+    },50);
+}
+
+})();
+</script>
+
+
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蒙牛麦片</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">41k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">37 分钟</span>
+</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-pjax@0/pjax.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      element.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+  <script pjax>
+  if (CONFIG.page.isPost) {
+    wpac_init = window.wpac_init || [];
+    wpac_init.push({
+      widget: 'Rating',
+      id: ,
+      el: 'wpac-rating',
+      color: 'fc6423'
+    });
+    (function() {
+      if ('WIDGETPACK_LOADED' in window) return;
+      WIDGETPACK_LOADED = true;
+      var mc = document.createElement('script');
+      mc.type = 'text/javascript';
+      mc.async = true;
+      mc.src = '//embed.widgetpack.com/widget.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+    })();
+  }
+  </script>
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+    MathJax.Ajax.config.path['mhchem'] = '//cdnjs.cloudflare.com/ajax/libs/mathjax-mhchem/3.3.0';
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        extensions: ['[mhchem]/mhchem.js'],
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+
+
+
+  <script src="/js/activate-power-mode.min.js"></script>
+  <script>
+    POWERMODE.colorful = true;
+    POWERMODE.shake = false;
+    document.body.addEventListener('input', POWERMODE);
+  </script>
+
+    </div>
+</body>
+</html>
