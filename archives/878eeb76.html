@@ -55,7 +55,7 @@
 <meta property="og:description" content="传送门">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-07-13T13:59:00.873Z">
-<meta property="article:modified_time" content="2020-07-15T02:18:47.314Z">
+<meta property="article:modified_time" content="2020-07-15T02:28:09.345Z">
 <meta property="article:author" content="蒙牛麦片">
 <meta name="twitter:card" content="summary">
 
@@ -160,7 +160,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">30</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">33</span></a>
 
   </li>
         <li class="menu-item menu-item-schedule">
@@ -260,7 +260,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-15 02:18:47" itemprop="dateModified" datetime="2020-07-15T02:18:47Z">2020-07-15</time>
+                <time title="修改时间：2020-07-15 02:28:09" itemprop="dateModified" datetime="2020-07-15T02:28:09Z">2020-07-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -320,7 +320,7 @@
 
 
 <h4 id="866-回文素数"><a href="#866-回文素数" class="headerlink" title="866. 回文素数"></a><a href="https://leetcode-cn.com/problems/prime-palindrome/" target="_blank" rel="noopener">866. 回文素数</a></h4><p><strong>题解：</strong>根据描述，只需要从N向上开始遍历，判断N是否同时满足回文和素数。在数字N大小在一千万和一亿之间，直接取N为一亿。因为在这范围没有满足的素数。</p>
-<p>其实还可以优化，不存在位数个数是偶数的回文数，因此11至100，一千至一万，十万至一百万，一千万至一亿之间是不存在满足题目条件的数。</p>
+<p>其实还可以优化，不存在位数个数是偶数的回文数且是素数的数，因此11至100，一千至一万，十万至一百万，一千万至一亿之间是不存在满足题目条件的数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">int primePalindrome(int N) &#123;</span><br><span class="line">       while(true)&#123;</span><br><span class="line">           if(N&#x3D;&#x3D;reverse(N)&amp;&amp;isPrime(N)) return N;</span><br><span class="line">           N++;</span><br><span class="line">           if(11&lt;N&amp;&amp;N&lt;100) N &#x3D; 100;</span><br><span class="line">           if(1000&lt;N&amp;&amp;N&lt;10000) N &#x3D; 10000;</span><br><span class="line">           if(100000&lt;N&amp;&amp;N&lt;1000000) N &#x3D; 1000000;</span><br><span class="line">           if(10000000&lt;N&amp;&amp;N&lt;100000000) N &#x3D; 100000000;</span><br><span class="line">       &#125;</span><br><span class="line">       return 0;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   bool isPrime(int N) &#123;</span><br><span class="line">       if (N &lt; 2) return false;</span><br><span class="line">       int R &#x3D; (int) sqrt(N);</span><br><span class="line">       for (int d &#x3D; 2; d &lt;&#x3D; R; ++d)</span><br><span class="line">           if (N % d &#x3D;&#x3D; 0) return false;</span><br><span class="line">       return true;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   int reverse(int N) &#123;</span><br><span class="line">       int ans &#x3D; 0;</span><br><span class="line">       while (N &gt; 0) &#123;</span><br><span class="line">           ans &#x3D; 10 * ans + (N % 10);</span><br><span class="line">           N &#x2F;&#x3D; 10;</span><br><span class="line">       &#125;</span><br><span class="line">       return ans;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -335,7 +335,7 @@
   <div class="popular-posts-header">推荐文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="\archives\4feb94cc.html" rel="bookmark">第86场周赛</a></div>
+      <div class="popular-posts-title"><a href="\archives\bee0cf41.html" rel="bookmark">第89场周赛</a></div>
     </li>
     <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="\archives\a9c25f88.html" rel="bookmark">第83场周赛</a></div>
@@ -438,7 +438,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -763,12 +763,12 @@ if(canvas.getContext){
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">81k</span>
+    <span title="站点总字数">85k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:13</span>
+    <span title="站点阅读时长">1:18</span>
 </div>
   <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
   </div>
